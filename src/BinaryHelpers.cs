@@ -4,9 +4,7 @@ using System.Text;
 
 namespace LnkScrubber;
 
-/// <summary>
 /// Low-level binary reading helpers for parsing LNK structures.
-/// </summary>
 internal static class BinaryHelpers
 {
     public static uint ReadDword(byte[] buf, int offset)
@@ -19,11 +17,9 @@ internal static class BinaryHelpers
         return BitConverter.ToUInt64(buf, offset);
     }
 
-    /// <summary>
     /// Read a null-terminated string from a byte buffer.
     /// For UTF-16LE, scans for a double-null terminator.
     /// For single-byte encodings, scans for a single null byte.
-    /// </summary>
     public static string ReadNullTerminated(byte[] buf, int offset, Encoding encoding)
     {
         if (encoding == Encoding.Unicode) // UTF-16LE
@@ -56,9 +52,7 @@ internal static class BinaryHelpers
         }
     }
 
-    /// <summary>
     /// Decode a bitmask into comma-separated flag names.
-    /// </summary>
     public static string DecodeFlags(uint value, Dictionary<uint, string> mapping)
     {
         var names = new List<string>();
@@ -71,10 +65,8 @@ internal static class BinaryHelpers
         return names.Count > 0 ? string.Join(", ", names) : string.Empty;
     }
 
-    /// <summary>
     /// Convert a Windows FILETIME (100ns intervals since 1601-01-01) to a formatted UTC string.
     /// Returns null for zero or invalid values.
-    /// </summary>
     public static string? FileTimeToString(ulong value, string format)
     {
         if (value == 0)
@@ -91,9 +83,7 @@ internal static class BinaryHelpers
         }
     }
 
-    /// <summary>
     /// Get the encoding for a given Windows code page number.
-    /// </summary>
     public static Encoding GetEncoding(int codepage)
     {
         try

@@ -5,9 +5,7 @@ using System.Text;
 
 namespace LnkScrubber;
 
-/// <summary>
 /// Parsed LinkInfo structure fields.
-/// </summary>
 internal sealed class LinkInfoResult
 {
     public string? LocalBasePath { get; set; }
@@ -18,14 +16,10 @@ internal sealed class LinkInfoResult
     public string? VolumeLabel { get; set; }
 }
 
-/// <summary>
 /// LNK file parser — reads raw bytes according to the MS-SHLLINK specification.
-/// </summary>
 internal static class LnkParser
 {
-    /// <summary>
     /// Parse the LinkInfo structure from the buffer at the given offset.
-    /// </summary>
     public static (int newOffset, LinkInfoResult result) ParseLinkInfo(byte[] buf, int offset)
     {
         var result = new LinkInfoResult();
@@ -163,9 +157,7 @@ internal static class LnkParser
         return (start + (int)linkInfoSize, result);
     }
 
-    /// <summary>
     /// Parse the StringData section following LinkInfo.
-    /// </summary>
     public static (int newOffset, Dictionary<string, string> result) ParseStringData(
         byte[] buf, int offset, uint linkFlags, int codepage)
     {
@@ -205,9 +197,7 @@ internal static class LnkParser
         return (offset, result);
     }
 
-    /// <summary>
     /// Parse the ExtraData region into a list of (signature, payload) tuples.
-    /// </summary>
     public static List<(uint signature, byte[] payload)> ParseExtraDataBlocks(byte[] data, int startOffset)
     {
         var blocks = new List<(uint, byte[])>();
@@ -232,9 +222,7 @@ internal static class LnkParser
         return blocks;
     }
 
-    /// <summary>
     /// Compute the start offset of the ExtraData region.
-    /// </summary>
     public static int? LocateExtraDataOffset(byte[] data, int codepage)
     {
         if (data.Length < 0x4C)
@@ -268,9 +256,7 @@ internal static class LnkParser
         return dict.TryGetValue(key, out val) ? val : null;
     }
 
-    /// <summary>
     /// Parse a complete .lnk file and return a dictionary of fields matching the LECmd field order.
-    /// </summary>
     public static Dictionary<string, object?> ParseLnk(string path, string dateTimeFormat, int codepage)
     {
         byte[] data = File.ReadAllBytes(path);

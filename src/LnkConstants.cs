@@ -2,9 +2,7 @@ using System.Collections.Generic;
 
 namespace LnkScrubber;
 
-/// <summary>
 /// Constants from the MS-SHLLINK specification.
-/// </summary>
 internal static class LnkConstants
 {
     public static readonly Dictionary<uint, string> LinkFlagNames = new Dictionary<uint, string>

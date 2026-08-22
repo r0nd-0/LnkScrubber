@@ -6,9 +6,7 @@ using System.Text;
 
 namespace LnkScrubber;
 
-/// <summary>
 /// Parsed tracker data from a TrackerDataBaseBlock.
-/// </summary>
 internal sealed class TrackerInfo
 {
     public string? MachineID { get; set; }
@@ -21,19 +19,15 @@ internal sealed class TrackerInfo
     public string? FileDroidBirth { get; set; }
 }
 
-/// <summary>
 /// TrackerDataBaseBlock parsing, building, and UUID v1 helpers.
-/// </summary>
 internal static class TrackerBlock
 {
     private static readonly Random Rng = new Random();
 
     private static Dictionary<string, string>? _macVendors;
 
-    /// <summary>
     /// Load OUI vendor prefixes from the embedded MACs.txt resource.
     /// Keys are 6-char uppercase hex (3-byte OUI), values are vendor names.
-    /// </summary>
     public static Dictionary<string, string> LoadMacVendors(string? resourcePath = null)
     {
         if (_macVendors != null)
@@ -71,10 +65,8 @@ internal static class TrackerBlock
         return _macVendors;
     }
 
-    /// <summary>
     /// Parse a TrackerDataBaseBlock payload into a TrackerInfo.
     /// The block includes the 4-byte size + 4-byte signature header.
-    /// </summary>
     public static TrackerInfo ParseTrackerBlock(byte[] block, string dateTimeFormat)
     {
         var info = new TrackerInfo();
@@ -150,18 +142,14 @@ internal static class TrackerBlock
         return info;
     }
 
-    /// <summary>
     /// Get the version number from a GUID's bytes.
-    /// </summary>
     private static int GetUuidVersion(Guid g)
     {
         var bytes = g.ToByteArray();
         return (bytes[7] >> 4) & 0x0F;
     }
 
-    /// <summary>
     /// Extract the 100-nanosecond timestamp from a UUID v1 GUID.
-    /// </summary>
     private static long GetUuidTimestamp(Guid g)
     {
         var bytes = g.ToByteArray();
@@ -173,9 +161,7 @@ internal static class TrackerBlock
         return ((long)timeHi << 48) | ((long)timeMid << 32) | timeLow;
     }
 
-    /// <summary>
     /// Extract the MAC address from a UUID v1 GUID.
-    /// </summary>
     public static string? MacFromUuid(Guid g)
     {
         if (GetUuidVersion(g) != 1)
@@ -185,9 +171,7 @@ internal static class TrackerBlock
         return string.Join(":", bytes.Skip(10).Take(6).Select(b => b.ToString("x2")));
     }
 
-    /// <summary>
     /// Convert a UUID v1 timestamp to a DateTime in UTC.
-    /// </summary>
     public static DateTime? GuidTimestampToDateTime(Guid g)
     {
         if (GetUuidVersion(g) != 1)
@@ -205,9 +189,7 @@ internal static class TrackerBlock
         }
     }
 
-    /// <summary>
     /// Build a UUID v1 GUID from a node (MAC as long), 100ns timestamp, and optional clock sequence.
-    /// </summary>
     public static Guid Uuid1FromNs100(long node, long ns100, int? clockSeq = null)
     {
         int seq = clockSeq ?? Rng.Next(0, 0x4000);
@@ -241,9 +223,7 @@ internal static class TrackerBlock
         );
     }
 
-    /// <summary>
     /// Build a TrackerDataBaseBlock from components.
-    /// </summary>
     public static byte[] BuildTrackerBlock(byte[]? template, string machineId, string mac, DateTime created)
     {
         uint size, sig, version, reserved;
@@ -298,9 +278,7 @@ internal static class TrackerBlock
         }
     }
 
-    /// <summary>
     /// Generate a random locally-administered unicast MAC address.
-    /// </summary>
     public static string RandomLocalMac()
     {
         byte first = (byte)((Rng.Next(0, 256) | 0x02) & 0xFE);
@@ -314,9 +292,7 @@ internal static class TrackerBlock
         return string.Join(":", parts.Select(b => b.ToString("x2")));
     }
 
-    /// <summary>
     /// Parse a colon-separated MAC address string to a long integer.
-    /// </summary>
     public static long MacToLong(string mac)
     {
         string[] parts = mac.Replace("-", ":").Split(':');

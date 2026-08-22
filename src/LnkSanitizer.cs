@@ -5,17 +5,13 @@ using System.Linq;
 
 namespace LnkScrubber;
 
-/// <summary>
 /// LNK TrackerDataBaseBlock sanitization — strip, anonymize, or manually edit tracker metadata.
-/// </summary>
 internal static class LnkSanitizer
 {
     private static readonly Random Rng = new Random();
     private const string AlphaNumChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
-    /// <summary>
     /// Sanitize an LNK file's TrackerDataBaseBlock.
-    /// </summary>
     public static byte[] SanitizeLnk(byte[] data, string dateTimeFormat, int codepage, string mode)
     {
         int? extraOffset = LnkParser.LocateExtraDataOffset(data, codepage);
