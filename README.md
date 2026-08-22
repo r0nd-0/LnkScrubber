@@ -42,7 +42,7 @@ Options:
   --anonymize              Replace tracker with randomized MachineID/MAC/droids
   --manualedit             Interactively edit tracker fields
   --out-lnk <path>         Output path for modified LNK (default: <stem>_sanitized.lnk)
-  --dt <format>            DateTime format string (default: yyyy-MM-dd HH:mm:ss)
+  --dt "format"            DateTime format string (default: yyyy-MM-dd HH:mm:ss)
   -h, --help               Show help
 ```
 
