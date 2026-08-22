@@ -54,8 +54,8 @@ LnkScrubber -f C:\path\file.lnk
 # Strip tracker data
 LnkScrubber -f C:\path\file.lnk --strip-tracker --out-lnk C:\path\file_clean.lnk
 
-# Anonymize tracker data (random MachineID/MAC/creation)
-LnkScrubber -f C:\path\file.lnk --anonymize --out-lnk C:\path\file_anon.lnk
+# Anonymize tracker data (random MachineID/MAC/creation/date/time)
+LnkScrubber -f C:\path\file.lnk --anonymize --dt "1900-01-01 12:12:12" --out-lnk C:\path\file_anon.lnk
 
 # Manually edit tracker fields
 LnkScrubber -f C:\path\file.lnk --manualedit --out-lnk C:\path\file_custom.lnk
